@@ -5,6 +5,11 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Release tag to publish (example: v0.1.1)"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -50,7 +55,10 @@ jobs:
       - name: Create GitHub release and upload package
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event.inputs.release_tag || github.ref_name }}
+          target_commitish: ${{ github.sha }}
           files: "*.tar.gz"
           generate_release_notes: true
+          overwrite_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
