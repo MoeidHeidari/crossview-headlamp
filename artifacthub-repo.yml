@@ -1,0 +1,23 @@
+repositoryID: crossview-headlamp
+owners:
+  - name: Moeid Heidari
+    email: moeid.heidari@example.com
+category: integration-delivery
+displayName: Crossview Headlamp Plugin
+shortDescription: Kubernetes multi-cluster management plugin for Headlamp
+description: |
+  Crossview is a Headlamp plugin that enables multi-cluster Kubernetes management and visualization.
+  It seamlessly integrates with Headlamp to provide a unified interface for managing multiple Kubernetes
+  clusters and their resources.
+keywords:
+  - kubernetes
+  - headlamp
+  - plugin
+  - multi-cluster
+  - platform-engineering
+home: https://github.com/MoeidHeidari/crossview-headlamp
+repo: https://github.com/MoeidHeidari/crossview-headlamp
+documentation: https://github.com/MoeidHeidari/crossview-headlamp/blob/main/README.md
+bugs: https://github.com/MoeidHeidari/crossview-headlamp/issues
+license: Apache-2.0
+artifactHubUserID: moeidheidari
