@@ -6,6 +6,6 @@ logoURL: https://raw.githubusercontent.com/MoeidHeidari/crossview-headlamp/main/
 description: Crossplane multi-cluster management plugin for Headlamp
 annotations:
   headlamp/plugin/archive-url: https://github.com/MoeidHeidari/crossview-headlamp/releases/download/v0.1.0/crossview-headlamp-0.1.0.tar.gz
-  headlamp/plugin/archive-checksum: ""
+  headlamp/plugin/archive-checksum: sha256:ac36e7d36f1fd2689f2acfd17f7a4f01bac0d6e683d0837fd90d5bb6e0b3420f
   headlamp/plugin/version-compat: ">=0.13.0"
-  headlamp/plugin/distro-compat: "Linux, macOS, Windows"
+  headlamp/plugin/distro-compat: "app,web,docker-desktop,linux,windows,mac"
