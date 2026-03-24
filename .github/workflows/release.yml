@@ -91,6 +91,24 @@ jobs:
           test -n "$ARTIFACT"
           echo "path=$ARTIFACT" >> "$GITHUB_OUTPUT"
 
+      - name: Update artifacthub-pkg.yml with release metadata
+        run: |
+          TAG="${{ steps.release_meta.outputs.tag }}"
+          VERSION="${TAG#v}"
+          ARTIFACT="${{ steps.package_artifact.outputs.path }}"
+          CHECKSUM="sha256:$(sha256sum "$ARTIFACT" | awk '{print $1}')"
+          ARCHIVE_URL="https://github.com/${{ github.repository }}/releases/download/${TAG}/${ARTIFACT}"
+
+          sed -i "s|^version:.*|version: ${VERSION}|" artifacthub-pkg.yml
+          sed -i "s|headlamp/plugin/archive-url:.*|headlamp/plugin/archive-url: ${ARCHIVE_URL}|" artifacthub-pkg.yml
+          sed -i "s|headlamp/plugin/archive-checksum:.*|headlamp/plugin/archive-checksum: ${CHECKSUM}|" artifacthub-pkg.yml
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add artifacthub-pkg.yml
+          git diff --cached --quiet || git commit -m "chore(release): update artifacthub-pkg.yml for ${TAG}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:

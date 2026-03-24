@@ -4,8 +4,11 @@ displayName: Crossview Headlamp
 createdAt: "2026-03-24T00:00:00Z"
 logoURL: https://raw.githubusercontent.com/MoeidHeidari/crossview-headlamp/main/public/readme-logo.png
 description: Crossplane multi-cluster management plugin for Headlamp
+screenshots:
+  - title: Crossview UI
+    url: https://raw.githubusercontent.com/MoeidHeidari/crossview-headlamp/main/public/crossview.png
 annotations:
   headlamp/plugin/archive-url: https://github.com/MoeidHeidari/crossview-headlamp/releases/download/v0.1.0/crossview-headlamp-0.1.0.tar.gz
-  headlamp/plugin/archive-checksum: sha256:ac36e7d36f1fd2689f2acfd17f7a4f01bac0d6e683d0837fd90d5bb6e0b3420f
+  headlamp/plugin/archive-checksum: sha256:0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5
   headlamp/plugin/version-compat: ">=0.13.0"
   headlamp/plugin/distro-compat: "app,web,docker-desktop,linux,windows,mac"
