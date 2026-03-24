@@ -81,15 +81,18 @@ jobs:
         run: npm run package
 
       - name: Verify package artifact
+        id: package_artifact
         run: |
           ls -la
-          test -n "$(ls -1 *.tar.gz 2>/dev/null)"
+          ARTIFACT="$(ls -1 *.tar.gz 2>/dev/null | head -n 1)"
+          test -n "$ARTIFACT"
+          echo "path=$ARTIFACT" >> "$GITHUB_OUTPUT"
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: crossview-headlamp-package
-          path: "*.tar.gz"
+          path: ${{ steps.package_artifact.outputs.path }}
           if-no-files-found: error
 
       - name: Create GitHub release and upload package
@@ -97,7 +100,7 @@ jobs:
         with:
           tag_name: ${{ steps.release_meta.outputs.tag || github.ref_name }}
           target_commitish: ${{ github.ref_name }}
-          files: "*.tar.gz"
+          files: ${{ steps.package_artifact.outputs.path }}
           generate_release_notes: true
           overwrite_files: true
         env:
