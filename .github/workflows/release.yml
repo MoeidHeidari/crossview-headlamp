@@ -118,6 +118,8 @@ jobs:
           fi
 
       - name: Create metadata update PR
+        id: metadata_pr
+        continue-on-error: true
         if: github.event_name == 'workflow_dispatch' && steps.metadata_changes.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
@@ -134,6 +136,20 @@ jobs:
           delete-branch: true
           add-paths: |
             artifacthub-pkg.yml
+
+      - name: Upload metadata fallback artifact
+        if: github.event_name == 'workflow_dispatch' && steps.metadata_changes.outputs.changed == 'true' && steps.metadata_pr.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacthub-pkg-updated-${{ steps.release_meta.outputs.tag }}
+          path: artifacthub-pkg.yml
+          if-no-files-found: error
+
+      - name: Print fallback instructions
+        if: github.event_name == 'workflow_dispatch' && steps.metadata_changes.outputs.changed == 'true' && steps.metadata_pr.outcome == 'failure'
+        run: |
+          echo "PR creation is blocked by repository settings."
+          echo "Download artifact 'artifacthub-pkg-updated-${{ steps.release_meta.outputs.tag }}' from this workflow run and commit it via a normal PR."
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
