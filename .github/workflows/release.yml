@@ -140,12 +140,29 @@ jobs:
             package-lock.json
 
       - name: Enable auto-merge for metadata PR
+        id: enable_auto_merge
+        continue-on-error: true
         if: github.event_name == 'workflow_dispatch' && steps.metadata_changes.outputs.changed == 'true' && steps.metadata_pr.outputs.pull-request-number != ''
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           pull-request-number: ${{ steps.metadata_pr.outputs.pull-request-number }}
           merge-method: squash
+
+      - name: Fallback merge metadata PR directly
+        if: github.event_name == 'workflow_dispatch' && steps.metadata_changes.outputs.changed == 'true' && steps.metadata_pr.outputs.pull-request-number != '' && steps.enable_auto_merge.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = Number('${{ steps.metadata_pr.outputs.pull-request-number }}');
+            await github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+              merge_method: 'squash'
+            });
+            core.info(`Merged metadata PR #${prNumber} using fallback path.`);
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
