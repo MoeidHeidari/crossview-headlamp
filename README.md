@@ -8,4 +8,4 @@ Crossview project repository:
 
 ## Screenshot
 
-![Crossview Headlamp Plugin](public/crossview.png)
+![Crossview Headlamp Plugin](https://raw.githubusercontent.com/MoeidHeidari/crossview-headlamp/main/public/crossview.png)
