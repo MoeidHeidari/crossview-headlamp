@@ -111,7 +111,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         id: metadata_changes
         run: |
-          if git diff --quiet artifacthub-pkg.yml; then
+          if git diff --quiet artifacthub-pkg.yml package.json package-lock.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -119,37 +119,33 @@ jobs:
 
       - name: Create metadata update PR
         id: metadata_pr
-        continue-on-error: true
         if: github.event_name == 'workflow_dispatch' && steps.metadata_changes.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore(release): update artifacthub-pkg.yml for ${{ steps.release_meta.outputs.tag }}"
-          title: "chore(release): sync artifacthub-pkg.yml for ${{ steps.release_meta.outputs.tag }}"
+          commit-message: "chore(release): sync release metadata for ${{ steps.release_meta.outputs.tag }}"
+          title: "chore(release): sync release metadata for ${{ steps.release_meta.outputs.tag }}"
           body: |
-            Automated update of `artifacthub-pkg.yml` for release `${{ steps.release_meta.outputs.tag }}`.
-            - Bumps package `version`
+            Automated release metadata update for `${{ steps.release_meta.outputs.tag }}`.
+            - Updates `artifacthub-pkg.yml` version
             - Sets `headlamp/plugin/archive-url`
             - Sets `headlamp/plugin/archive-checksum`
+            - Includes `package.json`/`package-lock.json` when version bump mode is used
           branch: "chore/release-artifacthub-${{ steps.release_meta.outputs.tag }}"
           base: main
           delete-branch: true
           add-paths: |
             artifacthub-pkg.yml
+            package.json
+            package-lock.json
 
-      - name: Upload metadata fallback artifact
-        if: github.event_name == 'workflow_dispatch' && steps.metadata_changes.outputs.changed == 'true' && steps.metadata_pr.outcome == 'failure'
-        uses: actions/upload-artifact@v4
+      - name: Enable auto-merge for metadata PR
+        if: github.event_name == 'workflow_dispatch' && steps.metadata_changes.outputs.changed == 'true' && steps.metadata_pr.outputs.pull-request-number != ''
+        uses: peter-evans/enable-pull-request-automerge@v3
         with:
-          name: artifacthub-pkg-updated-${{ steps.release_meta.outputs.tag }}
-          path: artifacthub-pkg.yml
-          if-no-files-found: error
-
-      - name: Print fallback instructions
-        if: github.event_name == 'workflow_dispatch' && steps.metadata_changes.outputs.changed == 'true' && steps.metadata_pr.outcome == 'failure'
-        run: |
-          echo "PR creation is blocked by repository settings."
-          echo "Download artifact 'artifacthub-pkg-updated-${{ steps.release_meta.outputs.tag }}' from this workflow run and commit it via a normal PR."
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.metadata_pr.outputs.pull-request-number }}
+          merge-method: squash
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
