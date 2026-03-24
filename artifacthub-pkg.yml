@@ -8,7 +8,7 @@ screenshots:
   - title: Crossview UI
     url: https://raw.githubusercontent.com/MoeidHeidari/crossview-headlamp/main/public/crossview.png
 annotations:
-  headlamp/plugin/archive-url: https://github.com/MoeidHeidari/crossview-headlamp/releases/download/v0.1.0/crossview-headlamp-0.1.0.tar.gz
+  headlamp/plugin/archive-url: https://github.com/MoeidHeidari/crossview-headlamp/releases/download/v0.1.2/crossview-headlamp-0.1.0.tar.gz
   headlamp/plugin/archive-checksum: sha256:0019dfc4b32d63c1392aa264aed2253c1e0c2fb09216f8e2cc269bbfb8bb49b5
   headlamp/plugin/version-compat: ">=0.13.0"
   headlamp/plugin/distro-compat: "app,web,docker-desktop,linux,windows,mac"
