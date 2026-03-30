@@ -34,6 +34,10 @@ export function getHelmUpgradeCommand(chartRef: string, chartVersion?: string): 
 	].join(' ');
 }
 
+export function getHelmRepoUpdateCommand(): string {
+	return 'helm repo update';
+}
+
 export function getHelmUninstallCommand(): string {
 	return `helm uninstall ${CROSSVIEW_RELEASE} --namespace ${CROSSVIEW_NAMESPACE} --wait --timeout 5m`;
 }
@@ -86,7 +90,7 @@ export function createHelmJob(jobName: string, helmCommand: string) {
 			namespace: CROSSVIEW_NAMESPACE,
 		},
 		spec: {
-			ttlSecondsAfterFinished: 1800,
+			ttlSecondsAfterFinished: 90,
 			backoffLimit: 0,
 			template: {
 				metadata: {
