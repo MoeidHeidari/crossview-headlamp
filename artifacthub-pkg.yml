@@ -1,4 +1,4 @@
-version: 0.1.3
+version: 0.1.4
 name: crossview-headlamp
 displayName: Crossview Headlamp
 createdAt: "2026-03-24T00:00:00Z"
@@ -8,7 +8,7 @@ screenshots:
   - title: Crossview UI
     url: https://raw.githubusercontent.com/MoeidHeidari/crossview-headlamp/main/public/crossview.png
 annotations:
-  headlamp/plugin/archive-url: https://github.com/MoeidHeidari/crossview-headlamp/releases/download/v0.1.3/crossview-headlamp-0.1.0.tar.gz
-  headlamp/plugin/archive-checksum: sha256:98dfee1df157fad44befc31859238af5051cf8123efb9550fff97405554d78d3
+  headlamp/plugin/archive-url: https://github.com/MoeidHeidari/crossview-headlamp/releases/download/v0.1.4/crossview-headlamp-0.1.0.tar.gz
+  headlamp/plugin/archive-checksum: sha256:8cb44b6a8b87d9445e5aaf4da3344681e931f2ff364bde493bc14de7f722f65a
   headlamp/plugin/version-compat: ">=0.13.0"
   headlamp/plugin/distro-compat: "app,web,docker-desktop,linux,windows,mac"
