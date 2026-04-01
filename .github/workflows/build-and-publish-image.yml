@@ -13,7 +13,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  ORG: moeidheidari
+  ORG: ${{ github.repository_owner }}
   PLUGIN: crossview
   IMAGE_NAME: headlamp-plugin-crossview
 jobs:
